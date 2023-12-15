@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: admin-service
+  profiles:
+    active: composite
+  datasource:
+    password: 'P@ssw0rd'
+    driver-class-name: 'org.postgresql.Driver'
+    username: rohitdev
+    url: 'jdbc:postgresql://127.0.0.1:5432/harmony'
+  jpa:
+    show-sql: 'true'
+  cloud:
+    config:
+      label: master
+      enabled: true
+      prefix: /config
+      server:
+        bootstrap: true
+        composite:
+          - type: jdbc
+            order: 1
+            sql: 'SELECT PROP_KEY, PROP_VALUE from tmx_admin.PROPERTIES where APPLICATION=? and PROFILE=? and LABEL_VALUE=?'
+  server:
+    port: 8888
+logging:
+  level:
+    org:
+      springframework:
+        context: DEBUG
+        web: DEBUG
+        boot: TRACE
+        cloud:
+          config: TRACE
